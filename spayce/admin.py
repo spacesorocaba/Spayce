@@ -3,7 +3,7 @@ from django.apps import apps
 
 # Register your models here.
 
-app = apps.get_app_config('core')
+app = apps.get_app_config('spayce')
 
 AdminDict = {}
 

@@ -6,8 +6,8 @@ from django.views.generic import TemplateView
 
 from django.views.generic.edit import CreateView, FormView
 
-from core.forms import PedidoForm
-from core.models import Pedido, Produto
+from spayce.forms import PedidoForm
+from spayce.models import Pedido, Produto
 
 
 class ValeuParca(TemplateView):
