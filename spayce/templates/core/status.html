@@ -6,8 +6,15 @@
 </head>
 <body>
 
-Total de Pedidos do usuário <strong>{{ request.user }}</strong>  :
-{{ total_pedidos }}
+
+Usuário logado <strong>{{ request.user }}</strong>  :
+{{ total_pedidos }} pedidos efetivos no mês
+
+<p>Lista de pedidos:
+{% for pedido in lista_pedidos %}
+<p> Usuário: {{pedido.consumidor}}</p>
+ <p>Produto: {{pedido}} , Quantidade : {{pedido.quantidade }}</p>
+{% endfor %}
 
 </body>
 </html>

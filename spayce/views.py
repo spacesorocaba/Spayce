@@ -34,7 +34,9 @@ class Status(TemplateView):
         context = super(Status, self).get_context_data()
         context['total_pedidos'] = Pedido.objects.filter(
             consumidor=self.request.user).count()
+        context['lista_pedidos'] = Pedido.objects.all()
         return context
+
 
 pedido = PedidoView.as_view()
 valeu = ValeuParca.as_view()
