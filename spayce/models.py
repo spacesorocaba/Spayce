@@ -1,8 +1,11 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.contrib.auth.models import User
 
 
-# Create your models here.
+class Spacer(AbstractUser):
+    cpf = models.CharField(max_length=20)
+    telefone = models.CharField(max_length=15)
+
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
@@ -15,8 +18,8 @@ class Product(models.Model):
 
 
 class Order(models.Model):
-    customer = models.ForeignKey(User, related_name='consumidor',
-                                   on_delete=models.CASCADE)
+    customer = models.ForeignKey(Spacer, related_name='consumidor',
+                                 on_delete=models.CASCADE)
     item = models.ForeignKey(Product, related_name='produto',
                              on_delete=models.CASCADE)
     quantity = models.IntegerField(null=False, blank=False)

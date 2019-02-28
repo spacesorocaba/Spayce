@@ -1,10 +1,7 @@
-from django.shortcuts import render
-
 # Create your views here.
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
-
-from django.views.generic.edit import CreateView, FormView
+from django.views.generic.edit import FormView
 from rest_framework import generics, permissions
 
 from spayce.forms import PedidoForm
@@ -110,7 +107,6 @@ class OrderDetail(generics.RetrieveUpdateAPIView):
 pedido = PedidoView.as_view()
 valeu = ValeuParca.as_view()
 status = Status.as_view()
-
 productlist = ProductList.as_view()
 productview = ProductView.as_view()
 productdetail = ProductDetail.as_view()
