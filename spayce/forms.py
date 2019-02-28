@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.forms import ModelForm
 from django.shortcuts import get_object_or_404
 
-from spayce.models import Pedido, Produto
+from spayce.models import Order, Product
 
 
 class PedidoForm(ModelForm):
@@ -12,7 +12,7 @@ class PedidoForm(ModelForm):
     quantidade = forms.IntegerField()
 
     class Meta:
-        model = Pedido
+        model = Order
         fields = ['consumidor', 'item', 'quantidade']
 
     def clean_consumidor(self):
@@ -25,6 +25,6 @@ class PedidoForm(ModelForm):
     def clean_item(self):
         item_id = self.cleaned_data['item']
 
-        item = get_object_or_404(Produto, pk=item_id)
+        item = get_object_or_404(Product, pk=item_id)
 
         return item

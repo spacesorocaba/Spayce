@@ -4,24 +4,24 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-class Produto(models.Model):
-    nome = models.CharField(max_length=100)
-    categoria = models.CharField(max_length=100)
-    preco = models.FloatField(default=0.0)
-    ativo = models.BooleanField(default=False)
+class Product(models.Model):
+    name = models.CharField(max_length=100)
+    category = models.CharField(max_length=100)
+    price = models.FloatField(default=0.0)
+    active = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.nome
+        return self.name
 
 
-class Pedido(models.Model):
-    consumidor = models.ForeignKey(User, related_name='consumidor',
+class Order(models.Model):
+    customer = models.ForeignKey(User, related_name='consumidor',
                                    on_delete=models.CASCADE)
-    item = models.ForeignKey(Produto, related_name='produto',
+    item = models.ForeignKey(Product, related_name='produto',
                              on_delete=models.CASCADE)
-    quantidade = models.IntegerField(null=False, blank=False)
+    quantity = models.IntegerField(null=False, blank=False)
     timestamp = models.DateTimeField(auto_now_add=True)
-    pago = models.BooleanField(default=False)
+    paid = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.item.nome
+        return self.item.name
