@@ -9,16 +9,24 @@ import { ExamplesModule } from './examples/examples.module';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
+import { InitialPageComponent } from './pages/initial-page/initial-page.component';
+import { AdminComponent } from './pages/admin/admin.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
     declarations: [
         AppComponent,
-        NavbarComponent
+        NavbarComponent,
+        InitialPageComponent,
+        AdminComponent
     ],
     imports: [
         BrowserAnimationsModule,
         NgbModule.forRoot(),
         FormsModule,
+        BrowserModule,
+        HttpClientModule,
         RouterModule,
         AppRoutingModule,
         ComponentsModule,

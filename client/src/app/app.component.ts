@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
             }else{
                 window.document.activeElement.scrollTop = 0;
             }
-            this.navbar.sidebarClose();
+            // this.navbar.sidebarClose();
 
             this.renderer.listenGlobal('window', 'scroll', (event) => {
                 const number = window.scrollY;
