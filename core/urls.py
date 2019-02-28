@@ -15,11 +15,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from spayce.views import pedido, valeu, status
+
+from spayce.views import productlist, productview, \
+    productdetail, orderlist, orderdetail
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', pedido, name='principal'),
-    path('thanks/', valeu, name='obrigado'),
-    path('status/', status, name='status')
+    # path('', pedido, name='principal'),
+    # path('thanks/', valeu, name='obrigado'),
+    # path('status/', status, name='status'),
+    path('api/product/', productlist, name='product'),
+    path('api/product/list/', productview, name='product-list-for-all-users'),
+    path('api/product/<int:pk>/', productdetail, name='product-detail'),
+    path('api/order/', orderlist, name='order'),
+    path('api/order/<int:pk>/', orderdetail, name='order-detail')
+    # path('product/get/<str:name>/', productretrieve,
+    #      name='product-retrieve-for-all-users'),
+
 ]
