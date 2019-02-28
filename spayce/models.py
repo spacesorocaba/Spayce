@@ -14,7 +14,7 @@ class Product(models.Model):
     active = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.name
+        return '%s %s' % (self.name, 'Ativo' if self.active else 'Inativo')
 
 
 class Order(models.Model):

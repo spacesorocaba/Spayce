@@ -49,12 +49,11 @@ class ProductList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         """Save the post data when creating a new product.
         Check if product already exists"""
-        duplicated = False
         for q in self.get_queryset():
             if q.name == serializer.validated_data['name']:
-                duplicated = True
-        if not duplicated:
-            serializer.save()
+                q.active = False
+                q.save()
+        serializer.save()
 
 
 class ProductView(generics.ListAPIView):
@@ -88,13 +87,9 @@ class OrderList(generics.ListCreateAPIView):
     )
 
     def perform_create(self, serializer):
-        """Save the post data when creating a new product.
-        Check if product already exists"""
-        duplicated = False
-        for q in self.get_queryset():
-            if q.name == serializer.validated_data['name']:
-                duplicated = True
-        if not duplicated:
+        """Save the post data when creating a new order.
+        Check if the product of the order is active"""
+        if serializer.validated_data['item'].active:
             serializer.save()
 
 
