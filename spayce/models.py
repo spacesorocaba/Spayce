@@ -24,6 +24,7 @@ class Order(models.Model):
                              on_delete=models.CASCADE)
     quantity = models.IntegerField(null=False, blank=False)
     timestamp = models.DateTimeField(auto_now_add=True)
+    receipt_value = models.FloatField(null=True, blank=False)
     paid = models.BooleanField(default=False)
 
     def __str__(self):
