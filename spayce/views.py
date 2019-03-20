@@ -46,14 +46,14 @@ class ProductList(generics.ListCreateAPIView):
         IsAdmin,
     )
 
-    def perform_create(self, serializer):
-        """Save the post data when creating a new product.
-        Check if product already exists"""
-        for q in self.get_queryset():
-            if q.name == serializer.validated_data['name']:
-                q.active = False
-                q.save()
-        serializer.save()
+    # def perform_create(self, serializer):
+    #     """Save the post data when creating a new product.
+    #     Check if product already exists"""
+    #     for q in self.get_queryset():
+    #         if q.name == serializer.validated_data['name']:
+    #             q.active = False
+    #             q.save()
+    #     serializer.save()
 
 
 class ProductView(generics.ListAPIView):
@@ -90,6 +90,9 @@ class OrderList(generics.ListCreateAPIView):
         """Save the post data when creating a new order.
         Check if the product of the order is active"""
         if serializer.validated_data['item'].active:
+            serializer.validated_data['receipt_value'] = \
+                serializer.validated_data['item'].price * \
+                serializer.validated_data['quantity']
             serializer.save()
 
 
