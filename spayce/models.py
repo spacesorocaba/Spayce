@@ -3,7 +3,7 @@ from django.db import models
 
 
 class Spacer(AbstractUser):
-    cpf = models.CharField(max_length=20)
+    cpf = models.CharField(max_length=20, unique=True)
     telefone = models.CharField(max_length=15)
 
 
