@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from spayce.models import Product, Order
+from spayce.models import Product, Order, Spacer
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -12,5 +12,11 @@ class ProductSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        # fields = '__all__'
         exclude = ('receipt_value',)
+
+
+class SpacerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Spacer
+        fields = ('id', 'username', 'first_name', 'last_name', 'cpf',
+                  'email')

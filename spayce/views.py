@@ -1,13 +1,17 @@
 # Create your views here.
+import csv
+
+from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from rest_framework import generics, permissions
 
 from spayce.forms import PedidoForm
-from spayce.models import Product, Order
+from spayce.models import Product, Order, Spacer
 from spayce.permissions import IsAdmin
-from spayce.serializers import ProductSerializer, OrderSerializer
+from spayce.serializers import ProductSerializer, OrderSerializer, \
+    SpacerSerializer
 
 
 class ValeuParca(TemplateView):
@@ -102,6 +106,31 @@ class OrderDetail(generics.RetrieveUpdateAPIView):
     permission_classes = (permissions.IsAuthenticated, IsAdmin)
 
 
+class SpacerList(generics.ListAPIView):
+    queryset = Spacer.objects.all()
+    serializer_class = SpacerSerializer
+    permission_classes = (permissions.IsAuthenticated, IsAdmin)
+
+
+def teste_paulo(request):
+    path = 'spayce_csv.csv'
+    with open(path) as f:
+        reader = csv.reader(f, delimiter=';', quotechar='"')
+        next(f)
+        for row in reader:
+            print(row)
+            _, created = Spacer.objects.get_or_create(
+                first_name=row[2],
+                last_name=row[3],
+                username=row[0],
+                password=row[1],
+                cpf=row[5],
+                telefone=row[6],
+                email=row[4]
+            )
+    return HttpResponse('oi')
+
+
 pedido = PedidoView.as_view()
 valeu = ValeuParca.as_view()
 status = Status.as_view()
@@ -111,3 +140,4 @@ productdetail = ProductDetail.as_view()
 productretrieve = ProductRetrieve.as_view()
 orderlist = OrderList.as_view()
 orderdetail = OrderDetail.as_view()
+spacerview = SpacerList.as_view()
