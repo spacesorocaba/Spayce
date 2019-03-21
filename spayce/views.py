@@ -112,7 +112,7 @@ class SpacerList(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated, IsAdmin)
 
 
-def teste_paulo(request):
+def import_csv(request):
     path = 'spayce_csv.csv'
     with open(path) as f:
         reader = csv.reader(f, delimiter=';', quotechar='"')
