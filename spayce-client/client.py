@@ -13,6 +13,7 @@ products_data = product_client.list()
 products = {product['name']: product['id'] for product in products_data.json()}
 Order = namedtuple('Order', ['cpf', 'product'])
 
+
 def order_payload(orders):
     payload = []
     for order in orders:
@@ -24,6 +25,7 @@ def order_payload(orders):
         }
         payload.append(data)
     return payload
+
 
 def main():
     cpf = input('Digite seu cpj: ')
