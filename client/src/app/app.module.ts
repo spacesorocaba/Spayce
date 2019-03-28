@@ -13,6 +13,8 @@ import { InitialPageComponent } from './pages/initial-page/initial-page.componen
 import { AdminComponent } from './pages/admin/admin.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { NgbdModalBasic } from './components/modal/modal.component';
+import { ApiService } from './components/core/api.service';
 
 @NgModule({
     declarations: [
@@ -25,14 +27,14 @@ import { HttpClientModule } from '@angular/common/http';
         BrowserAnimationsModule,
         NgbModule.forRoot(),
         FormsModule,
+        ComponentsModule,
         BrowserModule,
         HttpClientModule,
         RouterModule,
         AppRoutingModule,
-        ComponentsModule,
         ExamplesModule
     ],
-    providers: [],
+    providers: [ApiService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

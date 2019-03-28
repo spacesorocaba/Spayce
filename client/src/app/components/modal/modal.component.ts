@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { ApiService } from '../core/api.service';
 
 @Component({
   selector: 'ngbd-modal-component',
@@ -8,9 +9,10 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 export class NgbdModalBasic {
     closeResult: string;
 
-    constructor(private modalService: NgbModal) {}
+    constructor(private modalService: NgbModal, private apiService: ApiService) {}
 
     open(content, type, modalDimension) {
+        console.log('clicou')
         if (modalDimension === 'sm' && type === 'modal_mini') {
             this.modalService.open(content, { windowClass: 'modal-mini modal-primary', size: 'sm' }).result.then((result) => {
                 this.closeResult = `Closed with: ${result}`;
@@ -41,5 +43,13 @@ export class NgbdModalBasic {
         } else {
             return  `with: ${reason}`;
         }
+    }
+
+    submit(quantity, paid, customer, item) {
+        this.apiService.post('orders/', {quantity: 1, paid: true, customer: '1', item: '1'}).subscribe(result => {
+            console.log('RESULT', result);
+        }, error => {
+            console.log('ERRO', error);
+        })
     }
 }

@@ -26,7 +26,9 @@
             <a class="btn btn-primary btn-round btn-lg btn-block btn-simple" [class.disabled]="!product.id || !product.quantity" (click)="addProduct()">Adicionar produto</a>
           </div>
           <div class="footer text-center">
-            <a href="#pablo" class="btn btn-primary btn-round btn-lg btn-block" [class.disabled]="!products.length">Concluir</a>
+            <ngbd-modal-component [class.disabled]="!products.length"></ngbd-modal-component>
+            <!-- <button class="btn btn-primary btn-round btn-lg btn-block" [class.disabled]="!products.length" (click)="open(modal_mini, 'modal_mini', 'sm')">Concluir</button> -->
+            <!-- <a href="#pablo" class="btn btn-primary btn-round btn-lg btn-block" [class.disabled]="!products.length" (click)="open(modal_mini, 'modal_mini', 'sm')">Concluir</a> -->
           </div>
         </form>
         <ng-container *ngIf="products">
@@ -39,7 +41,7 @@
   </div>
   <footer class="footer">
     <div class="container">
-      <nav>
+      <!-- <nav>
         <ul>
           <li>
             <a href="https://www.creative-tim.com">
@@ -62,7 +64,7 @@
             </a>
           </li>
         </ul>
-      </nav>
+      </nav> -->
       <div class="copyright">
         &copy;
         {{data | date: 'yyyy'}}, Designed by

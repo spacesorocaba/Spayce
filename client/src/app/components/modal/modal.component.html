@@ -1,4 +1,4 @@
-<button class="btn btn-primary" (click)="open(classic,'' , '')">
+<!-- <button class="btn btn-primary" (click)="open(classic,'' , '')">
  Launch Modal
 </button>
 <ng-template #classic let-c="close" let-d="dismiss">
@@ -16,22 +16,23 @@
         <button type="button" class="btn btn-default">Nice Button</button>
         <button type="button" class="btn btn-danger" (click)="c('Close click')">Close</button>
     </div>
-</ng-template>
+</ng-template> -->
 
-<button class="btn btn-warning" (click)="open(modal_mini, 'modal_mini', 'sm')">
-   Launch Modal Mini
+<button class="btn btn-primary btn-round btn-lg btn-block" (click)="open(modal_mini, 'modal_mini', 'sm')">
+   Finalizar
 </button>
 <ng-template #modal_mini let-c="close" let-d="dismiss">
-  <div class="modal-header justify-content-center">
-      <div class="modal-profile">
-          <i class="now-ui-icons users_circle-08"></i>
-      </div>
-  </div>
-  <div class="modal-body">
-      <p>Always have an access to your profile</p>
-  </div>
-  <div class="modal-footer">
-      <button type="button" class="btn btn-link btn-neutral">Back</button>
-      <button type="button" class="btn btn-link btn-neutral" (click)="c('Close click')">Close</button>
-  </div>
+    <div class="modal-body">
+        <p>Informe seu código para finalizar o pedido</p>
+        <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus===true}">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="now-ui-icons objects_key-25"></i></span>
+            </div>
+            <input type="password" class="form-control" placeholder="Código">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-link btn-neutral" (click)="c('Close click')">Voltar</button>
+        <button type="button" class="btn btn-link btn-neutral" (click)="submit()">Confirmar</button>
+    </div>
 </ng-template>
