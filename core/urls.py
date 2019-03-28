@@ -22,11 +22,11 @@ from spayce.views import productlist, productview, \
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('import_csv/', import_csv, name='import_csv'),
+    path('import_products/', import_csv, name='import_csv'),
     path('api/spacers/', spacerview, name='spacers'),
     path('api/products/', productlist, name='products'),
     path('api/product/list/', productview, name='product-list-for-all-users'),
     path('api/product/<int:pk>/', productdetail, name='product-detail'),
     path('api/orders/', orderlist, name='orders'),
     path('api/order/<int:pk>/', orderdetail, name='order-detail')
-
 ]
