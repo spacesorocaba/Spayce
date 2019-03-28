@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'spayce',
     'corsheaders',
+    'spayce',
+
 ]
 
 MIDDLEWARE = [
@@ -138,3 +139,7 @@ STATIC_ROOT = '/var/www/static/'
 STATIC_URL = '/static/'
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+CSRF_TRUSTED_ORIGINS = (
+    '*',
+)
