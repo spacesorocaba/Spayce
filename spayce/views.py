@@ -7,13 +7,11 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from rest_framework import generics, permissions
-
 from spayce.forms import PedidoForm
-from spayce.models import Product, Order, Spacer
+from spayce.models import Order, Product, Spacer
 from spayce.permissions import IsAdmin
-from spayce.serializers import ProductSerializer, OrderSerializer, \
-    SpacerSerializer
-
+from spayce.serializers import (OrderSerializer, ProductSerializer,
+                                SpacerSerializer)
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 logger = logging.getLogger(__name__)

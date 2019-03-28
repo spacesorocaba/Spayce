@@ -1,6 +1,5 @@
 from rest_framework import serializers
-
-from spayce.models import Product, Order, Spacer
+from spayce.models import Order, Product, Spacer
 
 
 class ProductSerializer(serializers.ModelSerializer):
