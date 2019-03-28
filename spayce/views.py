@@ -113,7 +113,7 @@ class SpacerList(generics.ListAPIView):
 
 
 def import_csv(request):
-    path = 'spayce_csv.csv'
+    path = 'spacers.csv'
     with open(path) as f:
         reader = csv.reader(f, delimiter=';', quotechar='"')
         next(f)
@@ -130,6 +130,20 @@ def import_csv(request):
             )
     return HttpResponse('oi')
 
+
+def import_products_csv(request):
+    path = 'produtos.csv'
+    with open(path) as f:
+        reader = csv.reader(f, delimiter=';', quotechar='"')
+        next(f)
+        for row in reader:
+            print(row)
+            _, created = Product.objects.get_or_create(
+                name=row[0],
+                category=row[1],
+                price=row[2],
+            )
+    return HttpResponse('oi')
 
 pedido = PedidoView.as_view()
 valeu = ValeuParca.as_view()
