@@ -141,7 +141,7 @@ def import_products_csv(request):
             _, created = Product.objects.get_or_create(
                 name=row[0],
                 category=row[1],
-                price=row[2],
+                price=float(row[2].replace(',', '.')),
             )
     return HttpResponse('oi')
 
