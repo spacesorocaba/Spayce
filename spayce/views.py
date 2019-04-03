@@ -69,21 +69,27 @@ def export_csv(request):
         end_date = request.POST['end_date']
         pedidos = Order.objects.filter(timestamp__range=(start_date, end_date))
         response = HttpResponse(content_type='text/csv')
-        filename = 'Pedidos_ispay_'+start_date+'_'+end_date+'.xls'
+        filename = 'Pedidos_ispay_' + start_date + '_' + end_date + '.xls'
         response[
-            'Content-Disposition'] = 'attachment; filename="'+filename+'"'
+            'Content-Disposition'] = 'attachment; filename="' + filename + '"'
 
-        writer = csv.writer(response,delimiter=';')
-        writer.writerow(['Cliente', 'Item', 'Quantidade', 'Valor da nota',
-                         'Dia', 'Pago'])
+        writer = csv.writer(response, delimiter=';')
+        writer.writerow([
+            'Cliente_ID', 'Cliente', 'ID', 'Item', 'Quantidade',
+            'Valor Unitário', 'Valor da nota', 'Dia', 'Pago'
+        ])
         for pedido in pedidos:
-            writer.writerow(
-                [pedido.customer.first_name,
-                 pedido.item.name,
-                 pedido.quantity,
-                 pedido.receipt_value,
-                 pedido.timestamp.strftime('%d/%m/%Y %H:%M:%S'),
-                 'SIM' if pedido.paid else 'Não'])
+            print(pedido.receipt_value)
+            print(str(pedido.receipt_value))
+            print(str(pedido.receipt_value).replace('.', ','))
+            writer.writerow([
+                pedido.customer.id, pedido.customer.first_name, pedido.item.id,
+                pedido.item.name, pedido.quantity,
+                str(pedido.receipt_value / pedido.quantity).replace('.', ','),
+                str(pedido.receipt_value).replace('.', ','),
+                pedido.timestamp.strftime('%d/%m/%Y %H:%M:%S'),
+                'SIM' if pedido.paid else 'Não'
+            ])
 
         return response
     context = {'form': dateform}
@@ -94,7 +100,7 @@ class ProductView(generics.ListAPIView):
     """List of Product saved, to show to authenticated users"""
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, )
 
 
 class ProductRetrieve(generics.RetrieveAPIView):
@@ -103,7 +109,7 @@ class ProductRetrieve(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'name'
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, )
 
 
 class ProductDetail(generics.RetrieveUpdateAPIView):
@@ -156,8 +162,7 @@ def import_csv(request):
                 password=row[1],
                 cpf=row[5],
                 telefone=row[6],
-                email=row[4]
-            )
+                email=row[4])
     return HttpResponse('oi')
 
 
@@ -174,6 +179,7 @@ def import_products_csv(request):
                 price=float(row[2].replace(',', '.')),
             )
     return HttpResponse('oi')
+
 
 pedido = PedidoView.as_view()
 valeu = ValeuParca.as_view()
