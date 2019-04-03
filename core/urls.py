@@ -18,10 +18,11 @@ from django.urls import path
 
 from spayce.views import productlist, productview, \
     productdetail, orderlist, orderdetail, import_csv, spacerview, \
-    import_products_csv
+    import_products_csv, export_csv
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('export_csv/', export_csv, name='export_csv'),
     path('import_csv/', import_csv, name='import_csv'),
     path('import_products/', import_products_csv, name='import_csv'),
     path('api/spacers/', spacerview, name='spacers'),
