@@ -8,10 +8,10 @@ class Spacer(AbstractUser):
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     category = models.CharField(max_length=100)
-    price = models.FloatField(default=0.0)
-    active = models.BooleanField(default=False)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+    active = models.BooleanField(default=True)
 
     def __str__(self):
         return '%s %s' % (self.name, 'Ativo' if self.active else 'Inativo')

@@ -1,9 +1,11 @@
 import os
+from collections import namedtuple
 from pprint import pprint
+
 import requests
 from prettyconf import config
-from models import ProductClient, OrderClient
-from collections import namedtuple
+
+from models import OrderClient, ProductClient
 
 product_client = ProductClient()
 order_client = OrderClient()

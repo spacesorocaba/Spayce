@@ -15,10 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
-from spayce.views import productlist, productview, \
-    productdetail, orderlist, orderdetail, import_csv, spacerview, \
-    import_products_csv
+from spayce.views import (import_csv, import_products_csv, orderdetail,
+                          orderlist, productdetail, productlist, productview,
+                          spacerview)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
