@@ -146,7 +146,7 @@ def import_products_csv(request):
             logger.info(f'import_product_csv: {row}')
             product, created = Product.objects.update_or_create(
                 name=row[0],
-                defaults={'category': row[1], 'price': row[2]},
+                defaults={'category': row[1], 'price': float(row[2].replace(',', '.'))},
             )
             logger.info(f'product_create: {created}, product: {product}')
     return HttpResponse('oi')
