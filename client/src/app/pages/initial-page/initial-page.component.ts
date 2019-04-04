@@ -14,6 +14,14 @@ export class InitialPageComponent implements OnInit {
 
   products = [];
 
+  // change this function* to a appropriate to this action
+  const mapKeys = {
+      13: 'function_to_next_item',
+      113: 'function_to_cancel',
+      173: 'function_finish',
+      191: 'funtion_to_back',
+    }
+
   product = {
     id: '',
     quantity: 0
@@ -52,7 +60,7 @@ export class InitialPageComponent implements OnInit {
     product - precisa de autenticação (GET lista tudo, POST cria produto)
     product/list - não precisa de autenticação  (não aceita POST)
     product/:id - (GET retorna objeto, POST atualiza)
-
+e
    */
 
   addProduct() {
@@ -65,4 +73,11 @@ export class InitialPageComponent implements OnInit {
     this.product = { id: '', quantity: 0 };
   }
 
+  document.onkeydown = function(event) {
+    event.preventDefault();
+    if (event.keyCode in mapKeys) {
+      mapKeys[event.keyCode]
+      console.log(mapKeys[event.keyCode]) // hehehe
+    }
+  }
 }
