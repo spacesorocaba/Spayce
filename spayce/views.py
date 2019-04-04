@@ -1,5 +1,7 @@
 # Create your views here.
 import csv
+import logging
+import sys
 
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -7,12 +9,14 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from rest_framework import generics, permissions
-
 from spayce.forms import PedidoForm
-from spayce.models import Product, Order, Spacer
+from spayce.models import Order, Product, Spacer
 from spayce.permissions import IsAdmin
-from spayce.serializers import ProductSerializer, OrderSerializer, \
-    SpacerSerializer
+from spayce.serializers import (OrderSerializer, ProductSerializer,
+                                SpacerSerializer)
+
+logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 class ValeuParca(TemplateView):
@@ -156,35 +160,42 @@ class SpacerDetail(generics.RetrieveAPIView):
 
 
 def import_csv(request):
-    path = 'spacers.csv'
+    path = request.FILES[0]  # i think this is need be a name
     with open(path) as f:
         reader = csv.reader(f, delimiter=';', quotechar='"')
         next(f)
         for row in reader:
-            print(row)
-            _, created = Spacer.objects.get_or_create(
-                first_name=row[2],
-                last_name=row[3],
-                username=row[0],
-                password=row[1],
+            logger.info(f'import_product_csv: {row}')
+            spacer, created = Spacer.objects.update_or_create(
                 cpf=row[5],
-                telefone=row[6],
-                email=row[4])
+                defaults={
+                    'first_name': row[2],
+                    'last_name': row[3],
+                    'username': row[0],
+                    'password': row[1],
+                    'telefone': row[6],
+                    'email': row[4],
+                },
+            )
+            logger.info(f'product_create: {created}, product: {spacer}')
     return HttpResponse('oi')
 
 
 def import_products_csv(request):
-    path = 'produtos.csv'
+    path = request.FILES[0]  # i think this is need be a name
     with open(path) as f:
         reader = csv.reader(f, delimiter=';', quotechar='"')
         next(f)
         for row in reader:
-            print(row)
-            _, created = Product.objects.get_or_create(
+            logger.info(f'import_product_csv: {row}')
+            product, created = Product.objects.update_or_create(
                 name=row[0],
-                category=row[1],
-                price=float(row[2].replace(',', '.')),
+                defaults={
+                    'category': row[1],
+                    'price': float(row[2].replace(',', '.'))
+                },
             )
+            logger.info(f'product_create: {created}, product: {product}')
     return HttpResponse('oi')
 
 

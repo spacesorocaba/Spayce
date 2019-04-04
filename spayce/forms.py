@@ -4,7 +4,6 @@ from django import forms
 from django.contrib.auth.models import User
 from django.forms import ModelForm, Form
 from django.shortcuts import get_object_or_404
-
 from spayce.models import Order, Product
 
 
@@ -32,7 +31,7 @@ class PedidoForm(ModelForm):
         return item
 
 
-class PedidoForm(Form):
+class ExportForm(Form):
     first_date = datetime.date.today() - datetime.timedelta(weeks=4)
     start_date = forms.DateField(label="Data Inicial",
                                  initial=first_date,
