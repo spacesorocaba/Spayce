@@ -148,6 +148,13 @@ class SpacerList(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated, IsAdmin)
 
 
+class SpacerDetail(generics.RetrieveAPIView):
+    queryset = Spacer.objects.all()
+    lookup_field = 'cpf'
+    serializer_class = SpacerSerializer
+    permission_classes = (permissions.IsAuthenticated, IsAdmin)
+
+
 def import_csv(request):
     path = 'spacers.csv'
     with open(path) as f:
@@ -191,3 +198,4 @@ productretrieve = ProductRetrieve.as_view()
 orderlist = OrderList.as_view()
 orderdetail = OrderDetail.as_view()
 spacerview = SpacerList.as_view()
+spacerdetail = SpacerDetail.as_view()
