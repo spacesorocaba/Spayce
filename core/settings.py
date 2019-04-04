@@ -139,6 +139,7 @@ STATIC_ROOT = '/var/www/static/'
 STATIC_URL = '/static/'
 
 CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = False
 
 CSRF_TRUSTED_ORIGINS = (
     '*',
