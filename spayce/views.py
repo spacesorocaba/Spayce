@@ -1,8 +1,10 @@
 # Create your views here.
 import csv
 import logging
+import sys
 
 from django.http import HttpResponse
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
@@ -63,11 +65,46 @@ class ProductList(generics.ListCreateAPIView):
     #     serializer.save()
 
 
+def export_csv(request):
+    dateform = PedidoForm()
+    if request.method == 'POST':
+        print(request.POST)
+        start_date = request.POST['start_date']
+        end_date = request.POST['end_date']
+        pedidos = Order.objects.filter(timestamp__range=(start_date, end_date))
+        response = HttpResponse(content_type='text/csv')
+        filename = 'Pedidos_ispay_' + start_date + '_' + end_date + '.xls'
+        response[
+            'Content-Disposition'] = 'attachment; filename="' + filename + '"'
+
+        writer = csv.writer(response, delimiter=';')
+        writer.writerow([
+            'Cliente_ID', 'Cliente', 'ID', 'Item', 'Quantidade',
+            'Valor Unitário', 'Valor da nota', 'Dia', 'Pago'
+        ])
+        for pedido in pedidos:
+            print(pedido.receipt_value)
+            print(str(pedido.receipt_value))
+            print(str(pedido.receipt_value).replace('.', ','))
+            writer.writerow([
+                pedido.customer.id, pedido.customer.first_name, pedido.item.id,
+                pedido.item.name, pedido.quantity,
+                str(pedido.receipt_value / pedido.quantity).replace('.', ','),
+                str(pedido.receipt_value).replace('.', ','),
+                pedido.timestamp.strftime('%d/%m/%Y %H:%M:%S'),
+                'SIM' if pedido.paid else 'Não'
+            ])
+
+        return response
+    context = {'form': dateform}
+    return render(request, 'core/export.html', context)
+
+
 class ProductView(generics.ListAPIView):
     """List of Product saved, to show to authenticated users"""
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, )
 
 
 class ProductRetrieve(generics.RetrieveAPIView):
@@ -76,7 +113,7 @@ class ProductRetrieve(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'name'
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, )
 
 
 class ProductDetail(generics.RetrieveUpdateAPIView):
@@ -115,8 +152,15 @@ class SpacerList(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated, IsAdmin)
 
 
+class SpacerDetail(generics.RetrieveAPIView):
+    queryset = Spacer.objects.all()
+    lookup_field = 'cpf'
+    serializer_class = SpacerSerializer
+    permission_classes = (permissions.IsAuthenticated, IsAdmin)
+
+
 def import_csv(request):
-    path = request.FILES[0] # i think this is need be a name
+    path = request.FILES[0]  # i think this is need be a name
     with open(path) as f:
         reader = csv.reader(f, delimiter=';', quotechar='"')
         next(f)
@@ -125,12 +169,12 @@ def import_csv(request):
             spacer, created = Spacer.objects.update_or_create(
                 cpf=row[5],
                 defaults={
-                    first_name: row[2],
-                    last_name: row[3],
-                    username: row[0],
-                    password: row[1],
-                    telefone: row[6],
-                    email: row[4],
+                    'first_name': row[2],
+                    'last_name': row[3],
+                    'username': row[0],
+                    'password': row[1],
+                    'telefone': row[6],
+                    'email': row[4],
                 },
             )
             logger.info(f'product_create: {created}, product: {spacer}')
@@ -138,7 +182,7 @@ def import_csv(request):
 
 
 def import_products_csv(request):
-    path = request.FILES[0] # i think this is need be a name
+    path = request.FILES[0]  # i think this is need be a name
     with open(path) as f:
         reader = csv.reader(f, delimiter=';', quotechar='"')
         next(f)
@@ -146,7 +190,10 @@ def import_products_csv(request):
             logger.info(f'import_product_csv: {row}')
             product, created = Product.objects.update_or_create(
                 name=row[0],
-                defaults={'category': row[1], 'price': float(row[2].replace(',', '.'))},
+                defaults={
+                    'category': row[1],
+                    'price': float(row[2].replace(',', '.'))
+                },
             )
             logger.info(f'product_create: {created}, product: {product}')
     return HttpResponse('oi')
@@ -162,3 +209,4 @@ productretrieve = ProductRetrieve.as_view()
 orderlist = OrderList.as_view()
 orderdetail = OrderDetail.as_view()
 spacerview = SpacerList.as_view()
+spacerdetail = SpacerDetail.as_view()
