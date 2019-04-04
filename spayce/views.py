@@ -165,7 +165,7 @@ def import_csv(request):
         reader = csv.reader(f, delimiter=';', quotechar='"')
         next(f)
         for row in reader:
-            logger.info(f'import_product_csv: {row}')
+            logger.info('import_product_csv: {}'.format(row))
             spacer, created = Spacer.objects.update_or_create(
                 cpf=row[5],
                 defaults={
@@ -177,7 +177,7 @@ def import_csv(request):
                     'email': row[4],
                 },
             )
-            logger.info(f'product_create: {created}, product: {spacer}')
+            logger.info('product_create: {}, product: {}'.format(created,spacer))
     return HttpResponse('oi')
 
 
@@ -187,7 +187,7 @@ def import_products_csv(request):
         reader = csv.reader(f, delimiter=';', quotechar='"')
         next(f)
         for row in reader:
-            logger.info(f'import_product_csv: {row}')
+            logger.info('import_product_csv: {}'.format(row))
             product, created = Product.objects.update_or_create(
                 name=row[0],
                 defaults={
@@ -195,7 +195,8 @@ def import_products_csv(request):
                     'price': float(row[2].replace(',', '.'))
                 },
             )
-            logger.info(f'product_create: {created}, product: {product}')
+            logger.info('product_create: {}, product: {}'.format(
+                created, product))
     return HttpResponse('oi')
 
 
